@@ -37,5 +37,32 @@
     "featured": true,
     "year": "2025",
     "tags": ["Python", "scikit-learn", "Machine Learning", "Tailwind", "Full-Stack", "SQL", "Plotly", "FastAPI"]
+  },
+  {
+    "id": 4,
+    "name": "GridironMetrics",
+    "description": "GridironMetrics is a football analytics projects that analyzes NFL skill position players using advanced and traditional statistics to provide insights on player performance and value.",
+    "detailed_description": "GridironMetrics is a comprehensive football analytics project that focuses on evaluating NFL skill position players through advanced metrics and traditional statistics. The project utilizes Python for data analysis, employing libraries such as Pandas for data manipulation, scikit-learn for machine learning, and Plotly for data visualization. By analyzing player performance data, GridironMetrics aims to provide insights into player value, efficiency, and potential future performance.",
+    "html_url": "https://github.com/NairSiddharth/GridironMetrics",
+    "live_url": "",
+    "image": "/project-screenshots/american-football.png",
+    "status": "Active",
+    "featured": true,
+    "year": "2025",
+    "tags": ["Python", "scikit-learn", "Machine Learning", "Excel", "Pandas"]
+  },
+  {
+    "id": 5,
+    "name": "Full Count",
+    "description": "Full Count is a blog about Houston sports, covering teams like the Astros, Rockets, Texans, and more. It provides analysis from an data analytics perspective.",
+    "detailed_description": "Full Count is a sports blog dedicated to covering Houston's major sports teams, including the Astros, Rockets, and Texans. The blog offers in-depth analysis and insights from a data analytics perspective, utilizing statistical methods and data visualization to enhance the understanding of team performance and player contributions. Full Count aims to engage sports enthusiasts with well-researched articles and interactive content.",
+    "html_url": "https://github.com/NairSiddharth/Bullpen",
+    "live_url": "https://nairsiddharth.github.io/Bullpen/",
+    "image": "/project-screenshots/android-chrome-512x512.png",
+    "status": "Active",
+    "featured": true,
+    "year": "2025",
+    "tags": ["Sports", "Data Analytics", "Machine Learning", "Plotly", "Pandas", "Jekyll"]
   }
+
 ]
