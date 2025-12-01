@@ -40,4 +40,4 @@ A modern, data-driven personal portfolio and resume website built with **Next.js
 
 ## Visit
 
-- **Link** - Link to be placed here
+- **Link** - https://siddharthnair.pages.dev/
