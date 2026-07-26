@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Book, Film, Camera, Heart, Music, AlertTriangle, ExternalLink } from "lucide-react";
+import { Book, Film, Camera, Heart, Music, AlertTriangle, ExternalLink, Star } from "lucide-react";
 import moviesWatched from "@/data/movies.json";
 import booksRead from "@/data/books.json";
 
@@ -263,17 +263,21 @@ const lifeAdventurePhotos = [
 
 const StarRating = ({ rating }: { rating: number }) => {
   return (
-    <div className="flex gap-1">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <span
-          key={star}
-          className={`text-sm ${
-            star <= rating ? "text-yellow-400" : "text-gray-300"
-          }`}
-        >
-          ★
-        </span>
-      ))}
+    <div className="flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((star) => {
+        const fillPercent = Math.max(0, Math.min(1, rating - (star - 1))) * 100;
+        return (
+          <div key={star} className="relative w-4 h-4">
+            <Star className="absolute inset-0 w-4 h-4 text-gray-300" />
+            <div
+              className="absolute inset-0 overflow-hidden"
+              style={{ width: `${fillPercent}%` }}
+            >
+              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -489,7 +493,7 @@ export default function Personal() {
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0 space-y-2">
-                  <StarRating rating={movie.rating} />
+                  <StarRating rating={review?.rating ?? movie.rating} />
                   {review && (
                     <a
                       href={review.reviewUrl}
