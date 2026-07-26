@@ -214,41 +214,9 @@ export default function Experience() {
   return (
     <>
       <style>{`
-        @keyframes flow {
-          0% {
-            background-position: 0% 0%;
-          }
-          50% {
-            background-position: 0% 100%;
-          }
-          100% {
-            background-position: 0% 0%;
-          }
-        }
-        
-        @keyframes hueRotate {
-          0% {
-            filter: hue-rotate(0deg) brightness(1.1);
-          }
-          100% {
-            filter: hue-rotate(360deg) brightness(1.1);
-          }
-        }
-        
         .timeline-gradient {
-          background: linear-gradient(
-            180deg,
-            #667eea 0%,
-            #764ba2 15%,
-            #f093fb 30%,
-            #f5576c 45%,
-            #fda085 60%,
-            #4facfe 75%,
-            #43e97b 90%,
-            #667eea 100%
-          );
-          background-size: 100% 300%;
-          animation: flow 8s ease-in-out infinite, hueRotate 16s linear infinite;
+          /* Same accent colors as the navbar/footer (brand-emerald → brand-red) */
+          background: linear-gradient(180deg, #047857 0%, #991b1b 100%);
           width: 4px;
         }
       `}</style>

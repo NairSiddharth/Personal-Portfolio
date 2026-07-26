@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Book, Film, Camera, Heart, Music } from "lucide-react";
+import { Book, Film, Camera, Heart, Music, AlertTriangle } from "lucide-react";
 
 // Component to fetch and display movie poster
 const MoviePoster = ({ tmdbId, title }: { tmdbId: number, title: string }) => {
@@ -193,8 +193,9 @@ const SpotifyTopTracks = () => {
   return (
     <div className="space-y-2">
       {error && (
-        <div className="text-sm text-yellow-600 bg-yellow-50 p-2 rounded border border-yellow-200">
-          ⚠️ Using fallback data: {error}
+        <div className="text-sm text-yellow-600 bg-yellow-50 p-2 rounded border border-yellow-200 flex items-center gap-1.5">
+          <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+          Using fallback data: {error}
         </div>
       )}
       

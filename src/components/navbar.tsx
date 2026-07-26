@@ -1,29 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-
-// Beautiful gradients inspired by uiGradients
-const gradients = [
-  'linear-gradient(90deg, #667eea 0%, #764ba2 100%)', // Dusk
-  'linear-gradient(90deg, #f093fb 0%, #f5576c 100%)', // Pink Flavour
-  'linear-gradient(90deg, #4facfe 0%, #00f2fe 100%)', // Blue Skies
-  'linear-gradient(90deg, #43e97b 0%, #38f9d7 100%)', // Teen Notebook
-  'linear-gradient(90deg, #fa709a 0%, #fee140 100%)', // Sunset
-  'linear-gradient(90deg, #30cfd0 0%, #330867 100%)', // Deep Space
-  'linear-gradient(90deg, #a8edea 0%, #fed6e3 100%)', // Soft Cherish
-  'linear-gradient(90deg, #ff9a9e 0%, #fecfef 100%)', // Young Passion
-  'linear-gradient(90deg, #fbc2eb 0%, #a6c1ee 100%)', // Deep Blue
-  'linear-gradient(90deg, #fdcbf1 0%, #e6dee9 100%)', // Cloudy Knoxville
-  'linear-gradient(90deg, #a1c4fd 0%, #c2e9fb 100%)', // Winter Neva
-  'linear-gradient(90deg, #d299c2 0%, #fef9d7 100%)', // Dusty Grass
-  'linear-gradient(90deg, #89f7fe 0%, #66a6ff 100%)', // Sky Blue
-  'linear-gradient(90deg, #fddb92 0%, #d1fdff 100%)', // Sand Strike
-  'linear-gradient(90deg, #9890e3 0%, #b1f4cf 100%)', // Northern Lights
-];
+import { ACCENT_GRADIENT } from "@/lib/theme";
 
 const navLinks = [
   { label: "About", href: "/" },
@@ -36,18 +18,7 @@ const navLinks = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [currentGradient, setCurrentGradient] = useState(gradients[0]);
-  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
-
-  // Fix hydration mismatch by using pathname-based gradient selection
-  useEffect(() => {
-    setMounted(true);
-    // Use pathname as seed for consistent gradient selection (same as footer)
-    const pathHash = pathname.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const gradientIndex = pathHash % gradients.length;
-    setCurrentGradient(gradients[gradientIndex]);
-  }, [pathname]);
 
   // Function to check if link is active
   const isActive = (href: string) => {
@@ -148,16 +119,14 @@ export default function Navbar() {
         )}
       </nav>
       
-      {/* Fixed Animated Gradient Border */}
-      {mounted && (
-        <div 
-          className="fixed top-[72px] w-full h-[1px] z-50 transition-all duration-1000 ease-in-out shadow-lg"
-          style={{ 
-            backgroundImage: currentGradient,
-            opacity: 0.8,
-          }}
-        />
-      )}
+      {/* Accent Gradient Border */}
+      <div
+        className="fixed top-[72px] w-full h-[1px] z-50 shadow-lg"
+        style={{
+          backgroundImage: ACCENT_GRADIENT,
+          opacity: 0.8,
+        }}
+      />
     </>
   );
 }
