@@ -5,9 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Book, Film, Camera, Heart, Music } from "lucide-react";
 
-// TMDB API Configuration
-const TMDB_API_KEY = 'd8864e8ea68d42b670a7a43a9bc7cdf6';
-
 // Component to fetch and display movie poster
 const MoviePoster = ({ tmdbId, title }: { tmdbId: number, title: string }) => {
   const [posterUrl, setPosterUrl] = useState<string | null>(null);
@@ -16,13 +13,11 @@ const MoviePoster = ({ tmdbId, title }: { tmdbId: number, title: string }) => {
   useEffect(() => {
     const fetchPoster = async () => {
       try {
-        const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${TMDB_API_KEY}`
-        );
+        const response = await fetch(`/api/tmdb-poster?id=${tmdbId}`);
         const data = await response.json();
-        
-        if (data.poster_path) {
-          setPosterUrl(`https://image.tmdb.org/t/p/w300${data.poster_path}`);
+
+        if (data.posterUrl) {
+          setPosterUrl(data.posterUrl);
         }
       } catch (error) {
         console.error('Failed to fetch movie poster:', error);
