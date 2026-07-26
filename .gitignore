@@ -19,3 +19,4 @@ Thumbs.db
 # environment files
 .env
 .env.local
+tsconfig.tsbuildinfo

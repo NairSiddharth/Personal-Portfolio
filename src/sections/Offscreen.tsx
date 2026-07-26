@@ -34,22 +34,24 @@ const MoviePoster = ({ tmdbId, title }: { tmdbId: number, title: string }) => {
   }, [tmdbId]);
 
   if (loading) {
-    return <div className="w-full h-48 bg-muted animate-pulse rounded" />;
+    return <div className="w-full aspect-[2/3] bg-muted animate-pulse rounded" />;
   }
 
   if (posterUrl) {
     return (
-      <img 
-        src={posterUrl} 
-        alt={`${title} poster`}
-        className="w-full h-48 object-cover rounded"
-      />
+      <div className="w-full aspect-[2/3] bg-muted rounded overflow-hidden flex items-center justify-center">
+        <img
+          src={posterUrl}
+          alt={`${title} poster`}
+          className="w-full h-full object-contain"
+        />
+      </div>
     );
   }
 
   // Fallback placeholder
   return (
-    <div className="w-full h-48 bg-muted rounded flex items-center justify-center">
+    <div className="w-full aspect-[2/3] bg-muted rounded flex items-center justify-center">
       <Film className="w-8 h-8 text-muted-foreground" />
     </div>
   );
@@ -287,52 +289,33 @@ const StarRating = ({ rating }: { rating: number }) => {
   );
 };
 
+// Deterministic pseudo-random value in [0, 1) from an integer seed.
+// Using a hashed sine instead of Math.random() keeps each photo's scatter
+// stable across re-renders and avoids SSR/client hydration mismatches.
+const seededRandom = (seed: number) => {
+  const x = Math.sin(seed * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+};
+
+const getScatterStyle = (index: number) => {
+  const rotation = (seededRandom(index * 3.17 + 1) - 0.5) * 12; // ~-6deg to 6deg
+  const offsetX = (seededRandom(index * 7.53 + 2) - 0.5) * 20; // ~-10px to 10px
+  const offsetY = (seededRandom(index * 5.11 + 3) - 0.5) * 20; // ~-10px to 10px
+  return { rotation, offsetX, offsetY };
+};
+
 // Photo collage component
-const PhotoCollage = ({ 
-  photos, 
-  title, 
+const PhotoCollage = ({
+  photos,
+  title,
   icon: Icon,
-  gridLayout = "default" 
-}: { 
-  photos: any[], 
-  title: string, 
+}: {
+  photos: any[],
+  title: string,
   icon: any,
-  gridLayout?: "default" | "alternate"
 }) => {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
-
-  const getCollageStyles = (index: number, layout: string, totalPhotos: number) => {
-    if (layout === "default") {
-      const styles = [
-        { size: "w-40 h-32", rotation: "rotate-2", position: "top-4 left-4", zIndex: "z-10" },
-        { size: "w-36 h-44", rotation: "-rotate-3", position: "top-4 left-1/2 -translate-x-1/2", zIndex: "z-20" },
-        { size: "w-40 h-36", rotation: "rotate-1", position: "top-4 right-4", zIndex: "z-30" },
-        { size: "w-44 h-36", rotation: "-rotate-2", position: "top-1/3 left-8", zIndex: "z-40" },
-        { size: "w-36 h-40", rotation: "rotate-3", position: "top-1/3 left-1/2 -translate-x-1/2", zIndex: "z-50" },
-        { size: "w-40 h-44", rotation: "-rotate-1", position: "top-1/3 right-8", zIndex: "z-60" },
-        { size: "w-36 h-36", rotation: "rotate-2", position: "bottom-24 left-4", zIndex: "z-70" },
-        { size: "w-44 h-32", rotation: "-rotate-3", position: "bottom-24 left-1/2 -translate-x-1/2", zIndex: "z-80" },
-        { size: "w-40 h-40", rotation: "rotate-1", position: "bottom-24 right-4", zIndex: "z-90" }
-      ];
-      return styles[index % styles.length];
-    } else {
-      const styles = [
-        { size: "w-36 h-32", rotation: "-rotate-2", position: "top-4 left-2", zIndex: "z-10" },
-        { size: "w-32 h-40", rotation: "rotate-1", position: "top-4 left-1/3", zIndex: "z-20" },
-        { size: "w-36 h-36", rotation: "-rotate-3", position: "top-4 right-1/3", zIndex: "z-30" },
-        { size: "w-32 h-32", rotation: "rotate-2", position: "top-4 right-2", zIndex: "z-40" },
-        { size: "w-40 h-32", rotation: "-rotate-1", position: "top-44 left-4", zIndex: "z-50" },
-        { size: "w-36 h-40", rotation: "rotate-3", position: "top-44 left-1/3", zIndex: "z-60" },
-        { size: "w-32 h-36", rotation: "-rotate-2", position: "top-44 right-1/3", zIndex: "z-70" },
-        { size: "w-36 h-32", rotation: "rotate-1", position: "top-44 right-4", zIndex: "z-80" },
-        { size: "w-32 h-40", rotation: "rotate-2", position: "bottom-8 left-2", zIndex: "z-90" },
-        { size: "w-40 h-36", rotation: "-rotate-3", position: "bottom-8 left-1/3", zIndex: "z-100" },
-        { size: "w-36 h-32", rotation: "rotate-1", position: "bottom-8 right-1/3", zIndex: "z-110" },
-        { size: "w-32 h-36", rotation: "-rotate-1", position: "bottom-8 right-2", zIndex: "z-120" }
-      ];
-      return styles[index % styles.length];
-    }
-  };
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div className="space-y-4">
@@ -340,68 +323,80 @@ const PhotoCollage = ({
         <Icon className="w-5 h-5 text-primary" />
         <h3 className="text-xl font-heading font-semibold">{title}</h3>
       </div>
-      
-      <div 
-        className="relative h-[500px] lg:h-[600px] bg-gradient-to-br from-muted/20 to-muted/5 rounded-xl p-4 overflow-hidden select-none"
+
+      <div
+        className="relative bg-gradient-to-br from-muted/20 to-muted/5 rounded-xl p-6 select-none"
         onContextMenu={(e) => e.preventDefault()}
         style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
       >
-        {photos.map((photo, index) => {
-          const style = getCollageStyles(index, gridLayout, photos.length);
-          
-          return (
-            <div 
-              key={index}
-              className={`absolute ${style.position} ${style.size} ${style.rotation} ${style.zIndex} cursor-pointer group transform transition-all duration-300 hover:scale-105 hover:z-[200]`}
-              onClick={() => setSelectedPhoto(index)}
-            >
-              <div className="w-full h-full bg-white p-1.5 shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:rotate-0">
-                <div 
-                  className="w-full h-4/5 overflow-hidden bg-muted relative"
-                  draggable="false"
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+          {photos.map((photo, index) => {
+            const { rotation, offsetX, offsetY } = getScatterStyle(index);
+            const isHovered = hoveredIndex === index;
+            const transform = isHovered
+              ? "scale(1.06) rotate(0deg)"
+              : `translate(${offsetX}px, ${offsetY}px) rotate(${rotation}deg)`;
+
+            return (
+              <div
+                key={index}
+                className="relative aspect-[4/3] cursor-pointer"
+                style={{ zIndex: isHovered ? 200 : index + 1 }}
+                onClick={() => setSelectedPhoto(index)}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                <div
+                  className="absolute inset-0 bg-white p-1.5 shadow-lg hover:shadow-2xl transition-[transform,box-shadow] duration-300"
+                  style={{ transform }}
                 >
-                  <div className="absolute inset-0 z-10" style={{ pointerEvents: 'none' }}></div>
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    className="w-full h-full object-cover pointer-events-none select-none"
+                  <div
+                    className="w-full h-4/5 overflow-hidden bg-muted relative"
                     draggable="false"
-                    onDragStart={(e) => e.preventDefault()}
-                    onContextMenu={(e) => e.preventDefault()}
-                    style={{ userSelect: 'none', WebkitUserSelect: 'none', pointerEvents: 'none' }}
-                    onError={(e) => {
-                      e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23f3f4f6'/%3E%3Ctext x='150' y='100' text-anchor='middle' dy='.3em' fill='%236b7280' font-family='sans-serif' font-size='12'%3EPhoto%3C/text%3E%3C/svg%3E";
-                    }}
-                  />
-                </div>
-                <div className="h-1/5 flex items-center justify-center px-1">
-                  <div className="text-center">
-                    <p className="text-[10px] font-semibold text-gray-800 truncate px-1">
-                      {photo.location}
-                    </p>
+                  >
+                    <div className="absolute inset-0 z-10" style={{ pointerEvents: 'none' }}></div>
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      className="w-full h-full object-cover pointer-events-none select-none"
+                      draggable="false"
+                      onDragStart={(e) => e.preventDefault()}
+                      onContextMenu={(e) => e.preventDefault()}
+                      style={{ userSelect: 'none', WebkitUserSelect: 'none', pointerEvents: 'none' }}
+                      onError={(e) => {
+                        e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23f3f4f6'/%3E%3Ctext x='150' y='100' text-anchor='middle' dy='.3em' fill='%236b7280' font-family='sans-serif' font-size='12'%3EPhoto%3C/text%3E%3C/svg%3E";
+                      }}
+                    />
+                  </div>
+                  <div className="h-1/5 flex items-center justify-center px-1">
+                    <div className="text-center">
+                      <p className="text-[10px] font-semibold text-gray-800 truncate px-1">
+                        {photo.location}
+                      </p>
+                    </div>
                   </div>
                 </div>
+
+                {(index % 3 === 0) && (
+                  <div className="absolute -top-2 -right-2 w-6 h-3 bg-yellow-200 opacity-70 rotate-45 shadow-sm"></div>
+                )}
+                {(index % 3 === 1) && (
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-8 h-2 bg-gray-300 opacity-60 shadow-sm"></div>
+                )}
+                {(index % 3 === 2) && (
+                  <div className="absolute -bottom-1 -left-1 w-5 h-2 bg-blue-200 opacity-60 -rotate-12 shadow-sm"></div>
+                )}
               </div>
-              
-              {(index % 3 === 0) && (
-                <div className="absolute -top-2 -right-2 w-6 h-3 bg-yellow-200 opacity-70 rotate-45 shadow-sm"></div>
-              )}
-              {(index % 3 === 1) && (
-                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-8 h-2 bg-gray-300 opacity-60 shadow-sm"></div>
-              )}
-              {(index % 3 === 2) && (
-                <div className="absolute -bottom-1 -left-1 w-5 h-2 bg-blue-200 opacity-60 -rotate-12 shadow-sm"></div>
-              )}
-            </div>
-          );
-        })}
-        
-        <div className="absolute top-12 right-16 w-2 h-2 bg-primary/30 rounded-full"></div>
-        <div className="absolute bottom-16 left-12 w-2 h-2 bg-secondary/40 rounded-full"></div>
-        <div className="absolute top-1/2 right-1/4 w-3 h-1 bg-muted-foreground/20 rotate-45"></div>
-        
-        <div className="absolute top-0 right-0 w-12 h-12 bg-yellow-100/50 opacity-70 rotate-45 transform translate-x-6 -translate-y-6"></div>
-        <div className="absolute bottom-0 left-0 w-16 h-16 bg-blue-100/30 opacity-60 rotate-45 transform -translate-x-8 translate-y-8"></div>
+            );
+          })}
+        </div>
+
+        <div className="pointer-events-none">
+          <div className="absolute top-12 right-16 w-2 h-2 bg-primary/30 rounded-full"></div>
+          <div className="absolute bottom-16 left-12 w-2 h-2 bg-secondary/40 rounded-full"></div>
+          <div className="absolute top-0 right-0 w-12 h-12 bg-yellow-100/50 opacity-70 rotate-45 transform translate-x-6 -translate-y-6"></div>
+          <div className="absolute bottom-0 left-0 w-16 h-16 bg-blue-100/30 opacity-60 rotate-45 transform -translate-x-8 translate-y-8"></div>
+        </div>
       </div>
 
       {selectedPhoto !== null && (
@@ -528,18 +523,16 @@ export default function Personal() {
         </div>
         
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          <PhotoCollage 
-            photos={internshipPhotos} 
-            title="Internship Memories" 
+          <PhotoCollage
+            photos={internshipPhotos}
+            title="Internship Memories"
             icon={Camera}
-            gridLayout="default"
           />
 
-          <PhotoCollage 
-            photos={lifeAdventurePhotos} 
-            title="Life Adventures" 
+          <PhotoCollage
+            photos={lifeAdventurePhotos}
+            title="Life Adventures"
             icon={Heart}
-            gridLayout="alternate"
           />
         </div>
       </section>
