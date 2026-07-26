@@ -2,7 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: false // If you use <Image> component, needed for static export
+    // Cloudflare Pages (via @cloudflare/next-on-pages) doesn't support the
+    // built-in /_next/image optimizer without a custom Cloudflare Images
+    // loader, so optimization is disabled to avoid broken images in prod.
+    unoptimized: true,
+    remotePatterns: [
+      { protocol: 'https', hostname: 'image.tmdb.org' },
+      { protocol: 'https', hostname: 'covers.openlibrary.org' },
+    ]
   },
   // Disable caching for Cloudflare Pages build size limits
   webpack: (config, { dev }) => {

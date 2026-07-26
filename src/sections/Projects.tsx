@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import projects from "@/data/projects.json";
@@ -96,10 +97,12 @@ export default function Projects() {
         <div className="relative overflow-hidden rounded-t-lg">
           {repo.image ? (
             <div className="aspect-video bg-muted relative">
-              <img 
-                src={repo.image} 
+              <Image
+                src={repo.image}
                 alt={`${repo.name} preview`}
-                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 p-4"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-contain group-hover:scale-105 transition-transform duration-300 p-4"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>

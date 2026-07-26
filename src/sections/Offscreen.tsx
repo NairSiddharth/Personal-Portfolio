@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Book, Film, Camera, Heart, Music } from "lucide-react";
@@ -39,11 +40,13 @@ const MoviePoster = ({ tmdbId, title }: { tmdbId: number, title: string }) => {
 
   if (posterUrl) {
     return (
-      <div className="w-full aspect-[2/3] bg-muted rounded overflow-hidden flex items-center justify-center">
-        <img
+      <div className="relative w-full aspect-[2/3] bg-muted rounded overflow-hidden flex items-center justify-center">
+        <Image
           src={posterUrl}
           alt={`${title} poster`}
-          className="w-full h-full object-contain"
+          fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          className="object-contain"
         />
       </div>
     );
@@ -70,12 +73,16 @@ const BookCover = ({ isbn, title }: { isbn: number, title: string }) => {
   }
 
   return (
-    <img 
-      src={`https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`}
-      alt={`${title} cover`}
-      className="w-full h-40 object-cover rounded"
-      onError={() => setImageError(true)}
-    />
+    <div className="relative w-full h-40">
+      <Image
+        src={`https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`}
+        alt={`${title} cover`}
+        fill
+        sizes="112px"
+        className="object-cover rounded"
+        onError={() => setImageError(true)}
+      />
+    </div>
   );
 };
 
@@ -355,11 +362,13 @@ const PhotoCollage = ({
                     draggable="false"
                   >
                     <div className="absolute inset-0 z-10" style={{ pointerEvents: 'none' }}></div>
-                    <img
+                    <Image
                       src={photo.src}
                       alt={photo.alt}
-                      className="w-full h-full object-cover pointer-events-none select-none"
-                      draggable="false"
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                      className="object-cover pointer-events-none select-none"
+                      draggable={false}
                       onDragStart={(e) => e.preventDefault()}
                       onContextMenu={(e) => e.preventDefault()}
                       style={{ userSelect: 'none', WebkitUserSelect: 'none', pointerEvents: 'none' }}
