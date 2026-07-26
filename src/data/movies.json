@@ -1,0 +1,7 @@
+[
+  { "title": "Motor City", "year": 2026, "rating": 3.5, "genre": "Action", "id": 87513 },
+  { "title": "The Odyssey", "year": 2026, "rating": 4.5, "genre": "Fantasy", "id": 1368337 },
+  { "title": "Supergirl", "year": 2026, "rating": 2, "genre": "Superhero", "id": 1081003 },
+  { "title": "The Sheep Detectives", "year": 2026, "rating": 4, "genre": "Mystery", "id": 1301421 },
+  { "title": "Project Hail Mary", "year": 2026, "rating": 4, "genre": "Science Fiction", "id": 687163 }
+]

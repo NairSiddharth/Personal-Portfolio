@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Book, Film, Camera, Heart, Music, AlertTriangle } from "lucide-react";
+import { Book, Film, Camera, Heart, Music, AlertTriangle, ExternalLink } from "lucide-react";
+import moviesWatched from "@/data/movies.json";
+import booksRead from "@/data/books.json";
 
 // Component to fetch and display movie poster
 const MoviePoster = ({ tmdbId, title }: { tmdbId: number, title: string }) => {
@@ -231,22 +233,6 @@ const SpotifyTopTracks = () => {
     </div>
   );
 };
-// Data
-const moviesWatched = [
-  { title: "The Naked Gun", year: 2025, rating: 4, genre: "Comedy", id: 1035259 },
-  { title: "Superman", year: 2025, rating: 4, genre: "Superhero", id: 1061474 },
-  { title: "A Working Man", year: 2025, rating: 3, genre: "Action", id: 1197306 },
-  { title: "Thunderbolts*", year: 2025, rating: 4, genre: "Superhero", id: 986056 },
-];
-
-const booksRead = [
-  { title: "The Income Factory", author: "Steven Bavaria", rating: 3, category: "Investing", isbn: 9781260458534 },
-  { title: "Wind and Truth", author: "Brandon Sanderson", rating: 5, category: "Fantasy", isbn: 9781250368287 },
-  { title: "Psychology of Money", author: "Morgan Housel", rating: 5, category: "Personal Finance", isbn: 9789390166268 },
-  { title: "Open", author: "Andre Agassi/J.R. Moehringer", rating: 5, category: "Memoir", isbn: 9780307268198},
-  { title: "A Short History of Nearly Everything", author: "Bill Bryson", rating: 5, category: "Science", isbn: 9780552997041 },
-  { title: "Last Man Standing", author: "Duff McDonald", rating: 4, category: "Biography", isbn: 9781416599531},
-];
 
 const internshipPhotos = [
   { src: "/863.JPG", alt: "Internship First Day - 1st summer", company: "JPMorganChase", location: "Houston, TX" },
@@ -438,7 +424,36 @@ const PhotoCollage = ({
   );
 };
 
+interface LetterboxdReview {
+  tmdbId: number;
+  reviewUrl: string;
+  rating: number | null;
+}
+
 export default function Personal() {
+  const [letterboxdReviews, setLetterboxdReviews] = useState<Record<number, LetterboxdReview>>({});
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch('/api/letterboxd-reviews');
+        const data = await response.json();
+
+        if (data.reviews) {
+          const byTmdbId: Record<number, LetterboxdReview> = {};
+          for (const review of data.reviews as LetterboxdReview[]) {
+            byTmdbId[review.tmdbId] = review;
+          }
+          setLetterboxdReviews(byTmdbId);
+        }
+      } catch (error) {
+        console.error('Failed to fetch Letterboxd reviews:', error);
+      }
+    };
+
+    fetchReviews();
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto py-12 px-6 space-y-12">
       {/* Header */}
@@ -458,23 +473,38 @@ export default function Personal() {
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {moviesWatched.map((movie, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow overflow-hidden">
-              <CardContent className="p-0">
-                <MoviePoster tmdbId={movie.id} title={movie.title} />
-              </CardContent>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base">{movie.title}</CardTitle>
-                <div className="flex items-center justify-between">
-                  <Badge variant="secondary" className="text-xs">{movie.genre}</Badge>
-                  <span className="text-xs text-muted-foreground">{movie.year}</span>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <StarRating rating={movie.rating} />
-              </CardContent>
-            </Card>
-          ))}
+          {moviesWatched.map((movie, index) => {
+            const review = letterboxdReviews[movie.id];
+
+            return (
+              <Card key={index} className="hover:shadow-lg transition-shadow overflow-hidden">
+                <CardContent className="p-0">
+                  <MoviePoster tmdbId={movie.id} title={movie.title} />
+                </CardContent>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">{movie.title}</CardTitle>
+                  <div className="flex items-center justify-between">
+                    <Badge variant="secondary" className="text-xs">{movie.genre}</Badge>
+                    <span className="text-xs text-muted-foreground">{movie.year}</span>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0 space-y-2">
+                  <StarRating rating={movie.rating} />
+                  {review && (
+                    <a
+                      href={review.reviewUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1 text-xs text-primary hover:underline"
+                    >
+                      <ExternalLink className="w-3 h-3" />
+                      Read my review on Letterboxd
+                    </a>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </section>
 

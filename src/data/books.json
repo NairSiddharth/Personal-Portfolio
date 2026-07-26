@@ -1,0 +1,8 @@
+[
+  { "title": "The Income Factory", "author": "Steven Bavaria", "rating": 3, "category": "Investing", "isbn": 9781260458534 },
+  { "title": "Wind and Truth", "author": "Brandon Sanderson", "rating": 5, "category": "Fantasy", "isbn": 9781250368287 },
+  { "title": "Psychology of Money", "author": "Morgan Housel", "rating": 5, "category": "Personal Finance", "isbn": 9789390166268 },
+  { "title": "Open", "author": "Andre Agassi/J.R. Moehringer", "rating": 5, "category": "Memoir", "isbn": 9780307268198 },
+  { "title": "A Short History of Nearly Everything", "author": "Bill Bryson", "rating": 5, "category": "Science", "isbn": 9780552997041 },
+  { "title": "Last Man Standing", "author": "Duff McDonald", "rating": 4, "category": "Biography", "isbn": 9781416599531 }
+]
