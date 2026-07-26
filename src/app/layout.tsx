@@ -3,7 +3,7 @@ import "../styles/globals.css";
 import { ReactNode } from "react";
 import { Providers } from "@/components/providers";
 
-const siteUrl = "https://siddharthnair.pages.dev";
+const siteUrl = "https://siddharthn.com";
 const title = "Siddharth Nair — Software Engineer";
 const description =
   "Portfolio of Siddharth Nair, a software engineer specializing in Python, full-stack development, and data/AI systems, with experience across five internships including four at JPMorgan Chase.";
