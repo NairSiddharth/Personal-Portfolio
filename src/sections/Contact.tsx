@@ -13,8 +13,14 @@ interface ContactProps {
 }
 
 export default function Contact({ onHide }: ContactProps) {
-  // Availability status
-  const currentHour = new Date().getHours();
+  // Availability status, computed in Houston's timezone (not the visitor's local time)
+  const currentHour = Number(
+    new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Chicago',
+      hour: 'numeric',
+      hour12: false,
+    }).format(new Date())
+  );
   const isWorkingHours = currentHour >= 9 && currentHour <= 18;
   
   return (
@@ -213,7 +219,7 @@ export default function Contact({ onHide }: ContactProps) {
                 Download my latest resume in PDF format
               </p>
               <Button asChild variant="outline" className="w-full">
-                <a href="/resume.pdf" download>
+                <a href="/Siddharth_Nair_Resume.pdf" download>
                   Download Resume
                 </a>
               </Button>

@@ -17,7 +17,7 @@ A modern, data-driven personal portfolio and resume website built with **Next.js
 
 - **Projects Section**
   - Displays repository name, description, main language, and tech stack badges.  
-  - Shows up to 3 highlighted projects, with a clean, card-based layout.  
+  - Splits projects into highlighted and other, with a clean, card-based, filterable layout.  
 
 - **About & Contact Sections**  
   - Provides a short personal summary.  
@@ -30,7 +30,7 @@ A modern, data-driven personal portfolio and resume website built with **Next.js
 
 ## Tech Stack
 
-- **Next.js 13+** – React framework for server-side rendering and static site generation.  
+- **Next.js 15** – React framework for server-side rendering and static site generation.  
 - **TypeScript** – Strongly typed JavaScript for safer, maintainable code.  
 - **TailwindCSS** – Utility-first CSS framework for rapid UI development.  
 - **ShadCN UI Components** – Accessible and customizable UI primitives.  
@@ -40,4 +40,4 @@ A modern, data-driven personal portfolio and resume website built with **Next.js
 
 ## Visit
 
-- **Link** - https://siddharthnair.pages.dev/
+- **Link** - https://siddharthn.com/

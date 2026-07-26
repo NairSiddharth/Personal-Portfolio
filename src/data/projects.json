@@ -47,7 +47,7 @@
     "live_url": "",
     "image": "/project-screenshots/american-football.png",
     "status": "Active",
-    "featured": true,
+    "featured": false,
     "year": "2025",
     "tags": ["Python", "scikit-learn", "Machine Learning", "Excel", "Pandas"]
   },
@@ -60,7 +60,7 @@
     "live_url": "https://nairsiddharth.github.io/Bullpen/",
     "image": "/project-screenshots/android-chrome-512x512.png",
     "status": "Active",
-    "featured": true,
+    "featured": false,
     "year": "2025",
     "tags": ["Sports", "Data Analytics", "Machine Learning", "Plotly", "Pandas", "Jekyll"]
   }
