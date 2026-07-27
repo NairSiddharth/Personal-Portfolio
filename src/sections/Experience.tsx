@@ -27,13 +27,13 @@ interface Experience {
   type: string;
   startDate: string;
   endDate: string;
-  summary: string;
-  description: string[];
+  problemStatement: string;
+  businessImpact: string;
+  implementationDetails: string[];
   skills: string[];
   hasOverlap?: boolean;
   side?: 'left' | 'right';
   durationMonths?: number;
-  sizeClass?: string;
   timelinePosition?: number;
   formattedStartDate?: string;
   formattedEndDate?: string;
@@ -123,14 +123,12 @@ export default function Experience() {
     }
   };
 
-  // Helper function to get size class based on duration
-  const getSizeClass = (durationMonths: number): string => {
-    if (durationMonths <= 3) return "lg:w-4/12"; // Small (internships, short roles)
-    if (durationMonths <= 12) return "lg:w-5/12"; // Medium (1 year or less)
-    return "lg:w-6/12"; // Large (long-term positions)
-  };
+  // Cards are a uniform size regardless of calendar duration — sizing by
+  // duration made long-spanning part-time roles appear larger than the
+  // full-time internships that are the core of the timeline.
+  const UNIFORM_SIZE_CLASS = "lg:w-5/12";
 
-  
+
   // First useEffect: Process experiences data
   useEffect(() => {
     // Sort experiences by start date (most recent first)
@@ -190,7 +188,6 @@ export default function Experience() {
         ...exp,
         hasOverlap,
         side,
-        sizeClass: getSizeClass(exp.durationMonths!)
       };
     });
     
@@ -262,7 +259,7 @@ export default function Experience() {
 
                     {/* Card Container with dynamic sizing and AOS animation */}
                     <div
-                      className={`w-full ${exp.sizeClass || 'lg:w-5/12'} ${
+                      className={`w-full ${UNIFORM_SIZE_CLASS} ${
                         isLeft ? 'lg:mr-auto lg:pr-8' : 'lg:ml-auto lg:pl-8'
                       }`}
                       data-aos="fade-up"
@@ -296,25 +293,44 @@ export default function Experience() {
                         </CardHeader>
 
                         <CardContent>
-                          <p className="text-muted-foreground mb-4 leading-relaxed">
-                            {exp.summary}
-                          </p>
-                          
-                          <ul
-                            className={`space-y-2 mb-6 text-sm ${
-                              isLeft ? 'lg:text-right' : 'lg:text-left'
-                            }`}
-                          >
-                            {exp.description.map((item, idx) => (
-                              <li
-                                key={idx}
-                                className={`flex items-start ${isLeft ? 'lg:flex-row-reverse' : ''}`}
-                              >
-                                <span className="w-2 h-2 bg-primary rounded-full mt-2 mx-3 flex-shrink-0"></span>
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
+                          <div className="mb-4">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground/80 mb-1">
+                              Problem Statement
+                            </p>
+                            <p className="text-muted-foreground leading-relaxed">
+                              {exp.problemStatement}
+                            </p>
+                          </div>
+
+                          <div className="mb-4">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground/80 mb-1">
+                              Business Impact
+                            </p>
+                            <p className="text-muted-foreground leading-relaxed">
+                              {exp.businessImpact}
+                            </p>
+                          </div>
+
+                          <div className="mb-6">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground/80 mb-1">
+                              Implementation Details
+                            </p>
+                            <ul
+                              className={`space-y-2 text-sm ${
+                                isLeft ? 'lg:text-right' : 'lg:text-left'
+                              }`}
+                            >
+                              {exp.implementationDetails.map((item, idx) => (
+                                <li
+                                  key={idx}
+                                  className={`flex items-start ${isLeft ? 'lg:flex-row-reverse' : ''}`}
+                                >
+                                  <span className="w-2 h-2 bg-primary rounded-full mt-2 mx-3 flex-shrink-0"></span>
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
 
                           <div className={`flex flex-wrap gap-2 ${isLeft ? 'lg:justify-end' : 'lg:justify-start'} justify-center`}>
                             {visibleSkills.map((skill) => (
@@ -360,10 +376,7 @@ export default function Experience() {
                     {/* Connector Line to Timeline (Desktop only) */}
                     <div className={`absolute top-8 transform -translate-y-1/2 h-0.5 bg-primary/30 hidden lg:block ${
                       isLeft ? 'right-1/2 mr-3' : 'left-1/2 ml-3'
-                    }`} style={{
-                      width: exp.sizeClass === 'lg:w-4/12' ? '8rem' : 
-                             exp.sizeClass === 'lg:w-5/12' ? '6rem' : '4rem'
-                    }}></div>
+                    }`} style={{ width: '6rem' }}></div>
                   </div>
                 );
               })}
