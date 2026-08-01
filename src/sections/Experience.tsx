@@ -123,7 +123,7 @@ export default function Experience() {
     }
   };
 
-  // Cards are a uniform size regardless of calendar duration — sizing by
+  // Cards are a uniform size regardless of calendar duration. Sizing by
   // duration made long-spanning part-time roles appear larger than the
   // full-time internships that are the core of the timeline.
   const UNIFORM_SIZE_CLASS = "lg:w-5/12";
@@ -274,7 +274,7 @@ export default function Experience() {
                         <CardHeader>
                           <CardTitle className="text-lg font-bold">{exp.role}</CardTitle>
                           <CardDescription className="text-base font-medium">
-                            {exp.company} — {exp.location}
+                            {exp.company}, {exp.location}
                             {exp.hasOverlap && (
                               <span className="ml-2 text-orange-600 text-sm font-semibold">
                                 ● Concurrent Role
