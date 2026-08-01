@@ -10,7 +10,14 @@
     "status": "Active",
     "featured": true,
     "year": "2025",
-    "tags": ["TypeScript", "Next.js", "Tailwind", "React", "Node.js"]
+    "tags": ["TypeScript", "Next.js", "Tailwind", "React", "Node.js"],
+    "problemStatement": "Most portfolio sites are static resume clones built from a template; wanted one that reflected actual engineering judgment in its performance and content decisions, not just its visual design.",
+    "result": "Cut personal-photo payload from 50MB to 5.8MB (~90%) by converting to WebP, removed a render-blocking Google Fonts import in favor of self-hosted next/font, and added structured data (JSON-LD) and per-page metadata for search visibility.",
+    "implementationDetails": [
+      "Built with the Next.js App Router and TypeScript, styled with Tailwind CSS and ShadCN UI primitives.",
+      "Integrates live data from TMDB, Letterboxd, Goodreads, and Spotify APIs to keep the 'Beyond the Code' page current without manual updates.",
+      "Deployed on Cloudflare Pages via @cloudflare/next-on-pages."
+    ]
   },
   {
     "id": 2,
@@ -23,7 +30,14 @@
     "status": "Active",
     "featured": true,
     "year": "2025",
-    "tags": ["Python", "scikit-learn", "Jupyter", "Pandas", "Machine Learning", "Plotly", "Keras", "TensorFlow"]
+    "tags": ["Python", "scikit-learn", "Jupyter", "Pandas", "Machine Learning", "Plotly", "Keras", "TensorFlow"],
+    "problemStatement": "Publicly available WAR figures (fWAR, bWAR) are computed by proprietary, closed-source models, making it hard to understand or reproduce how a player's value is actually calculated.",
+    "result": "Currently benchmarking a progression of models, from linear regression through a neural network, against public fWAR/bWAR figures; project is ongoing and not yet finalized.",
+    "implementationDetails": [
+      "Pulls and parses player performance data from Baseball Savant and Fangraphs.",
+      "Builds progressively complex models (linear regression, scikit-learn estimators, and a Keras neural net) to approximate WAR-equivalent player value.",
+      "Visualizes projections and model comparisons with Plotly."
+    ]
   },
   {
     "id": 3,
@@ -36,7 +50,14 @@
     "status": "Active",
     "featured": true,
     "year": "2025",
-    "tags": ["Python", "scikit-learn", "Machine Learning", "Tailwind", "Full-Stack", "SQL", "Plotly", "FastAPI"]
+    "tags": ["Python", "scikit-learn", "Machine Learning", "Tailwind", "Full-Stack", "SQL", "Plotly", "FastAPI"],
+    "problemStatement": "Deciding which cologne to wear from a growing personal collection, based on season and recent rotation, was entirely ad hoc.",
+    "result": "Built a working recommendation model combining collaborative and content-based filtering over a personal fragrance dataset, served through a FastAPI backend.",
+    "implementationDetails": [
+      "Trains collaborative and content-based filtering models in scikit-learn over fragrance notes, season, and wear history.",
+      "Serves recommendations through a FastAPI backend backed by SQL storage.",
+      "Tailwind-based frontend for browsing suggestions."
+    ]
   },
   {
     "id": 4,

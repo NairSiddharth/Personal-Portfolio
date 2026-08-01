@@ -7,6 +7,7 @@ import projects from "@/data/projects.json";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ExternalLink, Github, Play, Calendar, Star } from "lucide-react";
 
 interface Repo {
@@ -21,6 +22,9 @@ interface Repo {
   image?: string;
   year?: string;
   detailed_description?: string;
+  problemStatement?: string;
+  result?: string;
+  implementationDetails?: string[];
 }
 
 function getStatusConfig(status: string) {
@@ -162,6 +166,46 @@ export default function Projects() {
             ))}
           </div>
           
+          {/* Case study (Problem / Result / Implementation) */}
+          {repo.problemStatement && repo.result && repo.implementationDetails && (
+            <Accordion type="single" collapsible className="mb-2">
+              <AccordionItem value="case-study" className="border-none">
+                <AccordionTrigger className="text-sm font-medium py-2 hover:no-underline">
+                  Read the case study
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground/80 mb-1">
+                        Problem
+                      </p>
+                      <p className="text-muted-foreground leading-relaxed">{repo.problemStatement}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground/80 mb-1">
+                        Result
+                      </p>
+                      <p className="text-muted-foreground leading-relaxed">{repo.result}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground/80 mb-1">
+                        Implementation
+                      </p>
+                      <ul className="space-y-1.5">
+                        {repo.implementationDetails.map((item, idx) => (
+                          <li key={idx} className="flex items-start text-muted-foreground leading-relaxed">
+                            <span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 mr-2 flex-shrink-0" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          )}
+
           {/* Action buttons */}
           <div className="flex gap-2 mt-auto">
             {repo.live_url && (
@@ -238,7 +282,7 @@ export default function Projects() {
           <h3 className="text-xl font-semibold mb-6 text-center" data-aos="fade-up">
             ⭐ Highlighted Work
           </h3>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 items-start">
             {featuredProjects.map((repo) => (
               <ProjectCard key={repo.id} repo={repo} featured={true} />
             ))}
@@ -254,7 +298,7 @@ export default function Projects() {
               Other Projects
             </h3>
           )}
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
             {regularProjects.map((repo) => (
               <ProjectCard key={repo.id} repo={repo} />
             ))}

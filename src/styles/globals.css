@@ -62,20 +62,15 @@
   }
 }
 
-/* ------------------------------
-   Google Fonts
-   ------------------------------ */
-@import url('https://fonts.googleapis.com/css2?family=Lora&family=Merriweather:wght@400;700&family=Libre+Baskerville:wght@400;700&display=swap');
-
 body {
-  font-family: 'Libre Baskerville', 'Lora', serif;
+  font-family: var(--font-body), var(--font-lora), serif;
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
   transition: background-color 0.3s, color 0.3s;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Merriweather', serif;
+  font-family: var(--font-heading), serif;
 }
 
 /* Optional smooth transitions for interactive components */

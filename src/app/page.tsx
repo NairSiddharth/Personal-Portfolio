@@ -4,6 +4,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import About from "@/sections/About";
 import Contact from "@/sections/Contact";
+import Highlights from "@/sections/Highlights";
 
 export default function Home() {
   const [showContact, setShowContact] = useState(false);
@@ -91,7 +92,12 @@ export default function Home() {
       <div id="about" className="max-w-7xl mx-auto px-6">
         <About onConnectClick={handleConnectClick} />
       </div>
-      
+
+      {/* Highlights: Most Recent Role + Featured Projects */}
+      <div className="max-w-7xl mx-auto px-6">
+        <Highlights />
+      </div>
+
       {/* Contact Section - Conditionally Rendered with AOS Animation */}
       {showContact && (
         <div 

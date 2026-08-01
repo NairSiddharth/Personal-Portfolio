@@ -67,8 +67,8 @@ module.exports = {
       },
 
       fontFamily: {
-        body: ['Libre Baskerville', 'Lora', 'serif'],
-        heading: ['Merriweather', 'serif'],
+        body: ['var(--font-body)', 'var(--font-lora)', 'serif'],
+        heading: ['var(--font-heading)', 'serif'],
       },
 
       keyframes: {

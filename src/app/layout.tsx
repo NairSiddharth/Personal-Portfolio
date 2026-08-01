@@ -1,7 +1,28 @@
 import type { Metadata } from "next";
+import { Libre_Baskerville, Lora, Merriweather } from "next/font/google";
 import "../styles/globals.css";
 import { ReactNode } from "react";
 import { Providers } from "@/components/providers";
+
+const libreBaskerville = Libre_Baskerville({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  variable: "--font-lora",
+  display: "swap",
+});
+
+const merriweather = Merriweather({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-heading",
+  display: "swap",
+});
 
 const siteUrl = "https://siddharthn.com";
 const title = "Siddharth Nair | Software Engineer";
@@ -48,7 +69,11 @@ interface LayoutProps {
 
 export default function RootLayout({ children }: LayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${libreBaskerville.variable} ${lora.variable} ${merriweather.variable}`}
+    >
       <body className="min-h-screen flex flex-col bg-background text-foreground font-body transition-colors duration-300">
         <script
           type="application/ld+json"
