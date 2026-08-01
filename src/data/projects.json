@@ -10,14 +10,7 @@
     "status": "Active",
     "featured": true,
     "year": "2025",
-    "tags": ["TypeScript", "Next.js", "Tailwind", "React", "Node.js"],
-    "problemStatement": "Most portfolio sites are static resume clones built from a template; wanted one that reflected actual engineering judgment in its performance and content decisions, not just its visual design.",
-    "result": "Cut personal-photo payload from 50MB to 5.8MB (~90%) by converting to WebP, removed a render-blocking Google Fonts import in favor of self-hosted next/font, and added structured data (JSON-LD) and per-page metadata for search visibility.",
-    "implementationDetails": [
-      "Built with the Next.js App Router and TypeScript, styled with Tailwind CSS and ShadCN UI primitives.",
-      "Integrates live data from TMDB, Letterboxd, Goodreads, and Spotify APIs to keep the 'Beyond the Code' page current without manual updates.",
-      "Deployed on Cloudflare Pages via @cloudflare/next-on-pages."
-    ]
+    "tags": ["TypeScript", "Next.js", "Tailwind", "React", "Node.js"]
   },
   {
     "id": 2,
