@@ -83,6 +83,29 @@ const BookCover = ({ isbn, title }: { isbn: number, title: string }) => {
   );
 };
 
+// Component to display Spotify album art, falling back to an icon when the
+// URL is missing or fails to load (e.g. the hardcoded mock fallback tracks).
+const AlbumArt = ({ src, alt }: { src?: string; alt: string }) => {
+  const [imageError, setImageError] = useState(false);
+
+  if (!src || imageError) {
+    return (
+      <div className="w-full h-full flex items-center justify-center bg-muted">
+        <Music className="w-8 h-8 text-muted-foreground" />
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      onError={() => setImageError(true)}
+    />
+  );
+};
+
 // Updated SpotifyTopTracks component for Offscreen.tsx
 // Replace the existing SpotifyTopTracks component in your Offscreen.tsx file
 
@@ -205,11 +228,7 @@ const SpotifyTopTracks = () => {
         {tracks.map((track, index) => (
           <Card key={track.id || index} className="overflow-hidden hover:shadow-lg transition-all group">
             <div className="relative aspect-square">
-              <img 
-                src={track.album.images[0]?.url || "/placeholder-album.jpg"}
-                alt={`${track.album.name} cover`}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
+              <AlbumArt src={track.album.images[0]?.url} alt={`${track.album.name} cover`} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="absolute bottom-2 left-2 right-2">
                   <Music className="w-4 h-4 text-white/80" />
@@ -290,10 +309,16 @@ const seededRandom = (seed: number) => {
   return x - Math.floor(x);
 };
 
+// Math.sin isn't guaranteed bit-identical across JS engines, so the server
+// (Node) and client (browser) can diverge in trailing float digits for the
+// same seed. Rounding to 2 decimals is well within visual tolerance for a
+// few-pixel/degree scatter effect and keeps the rendered string identical.
+const round2 = (value: number) => Math.round(value * 100) / 100;
+
 const getScatterStyle = (index: number) => {
-  const rotation = (seededRandom(index * 3.17 + 1) - 0.5) * 12; // ~-6deg to 6deg
-  const offsetX = (seededRandom(index * 7.53 + 2) - 0.5) * 20; // ~-10px to 10px
-  const offsetY = (seededRandom(index * 5.11 + 3) - 0.5) * 20; // ~-10px to 10px
+  const rotation = round2((seededRandom(index * 3.17 + 1) - 0.5) * 12); // ~-6deg to 6deg
+  const offsetX = round2((seededRandom(index * 7.53 + 2) - 0.5) * 20); // ~-10px to 10px
+  const offsetY = round2((seededRandom(index * 5.11 + 3) - 0.5) * 20); // ~-10px to 10px
   return { rotation, offsetX, offsetY };
 };
 

@@ -16,6 +16,10 @@ const nextConfig = {
     if (!dev) {
       config.cache = false;
     }
+    // pdfjs-dist (via react-pdf) optionally imports the Node "canvas" package
+    // for server-side rendering, which isn't installed and isn't needed in
+    // the browser bundle.
+    config.resolve.alias.canvas = false;
     return config;
   }
 };
