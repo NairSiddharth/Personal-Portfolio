@@ -55,13 +55,13 @@
   "main": "next.config.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NairSiddharth/PersonalWebsite.git"
+    "url": "git+https://github.com/NairSiddharth/Personal-Portfolio.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/NairSiddharth/PersonalWebsite/issues"
+    "url": "https://github.com/NairSiddharth/Personal-Portfolio/issues"
   },
-  "homepage": "https://github.com/NairSiddharth/PersonalWebsite#readme"
+  "homepage": "https://github.com/NairSiddharth/Personal-Portfolio#readme"
 }
