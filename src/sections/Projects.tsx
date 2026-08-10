@@ -249,7 +249,7 @@ export default function Projects() {
     <section id="projects" className="py-12 px-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="text-center mb-12" data-aos="fade-up">
-        <h2 className="text-3xl font-bold mb-4">Project Showcase</h2>
+        <h1 className="text-3xl font-bold mb-4">Project Showcase</h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           A showcase of my technical projects, ranging from full-stack applications to data science experiments.
         </p>
@@ -279,9 +279,9 @@ export default function Projects() {
       {/* Featured Projects */}
       {featuredProjects.length > 0 && (
         <div className="mb-12">
-          <h3 className="text-xl font-semibold mb-6 text-center" data-aos="fade-up">
+          <h2 className="text-xl font-semibold mb-6 text-center" data-aos="fade-up">
             ⭐ Highlighted Work
-          </h3>
+          </h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 items-start">
             {featuredProjects.map((repo) => (
               <ProjectCard key={repo.id} repo={repo} featured={true} />
@@ -294,9 +294,9 @@ export default function Projects() {
       {regularProjects.length > 0 && (
         <div>
           {featuredProjects.length > 0 && (
-            <h3 className="text-xl font-semibold mb-6 text-center" data-aos="fade-up">
+            <h2 className="text-xl font-semibold mb-6 text-center" data-aos="fade-up">
               Other Projects
-            </h3>
+            </h2>
           )}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
             {regularProjects.map((repo) => (

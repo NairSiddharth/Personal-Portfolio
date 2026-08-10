@@ -219,7 +219,7 @@ export default function Experience() {
       `}</style>
       
       <section id="experience" className="space-y-8 py-12 px-6">
-        <h2 className="font-bold text-3xl text-center mb-12">Experience</h2>
+        <h1 className="font-bold text-3xl text-center mb-12">Experience</h1>
 
         <div className="max-w-7xl mx-auto">
           <div className="relative">

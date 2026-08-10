@@ -39,7 +39,7 @@ export default function Resume() {
 
   return (
     <section id="resume" className="space-y-6 py-12 px-6 max-w-4xl mx-auto">
-      <h2 className="font-bold text-3xl text-center">Resume</h2>
+      <h1 className="font-bold text-3xl text-center">Resume</h1>
       <p className="font-body text-base text-center">
         Preview my resume below or download a copy.
       </p>

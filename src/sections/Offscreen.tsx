@@ -335,6 +335,16 @@ const PhotoCollage = ({
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
+  useEffect(() => {
+    if (selectedPhoto === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedPhoto(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedPhoto]);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
@@ -358,11 +368,22 @@ const PhotoCollage = ({
             return (
               <div
                 key={index}
-                className="relative aspect-[4/3] cursor-pointer"
+                role="button"
+                tabIndex={0}
+                aria-label={`View photo: ${photo.alt}`}
+                className="relative aspect-[4/3] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 style={{ zIndex: isHovered ? 200 : index + 1 }}
                 onClick={() => setSelectedPhoto(index)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setSelectedPhoto(index);
+                  }
+                }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
+                onFocus={() => setHoveredIndex(index)}
+                onBlur={() => setHoveredIndex(null)}
               >
                 <div
                   className="absolute inset-0 bg-white p-1.5 shadow-lg hover:shadow-2xl transition-[transform,box-shadow] duration-300"
@@ -420,7 +441,10 @@ const PhotoCollage = ({
       </div>
 
       {selectedPhoto !== null && (
-        <div 
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={photos[selectedPhoto].alt}
           className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 select-none"
           onClick={() => setSelectedPhoto(null)}
           onContextMenu={(e) => e.preventDefault()}
@@ -439,6 +463,7 @@ const PhotoCollage = ({
             <button
               className="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 z-20"
               onClick={() => setSelectedPhoto(null)}
+              aria-label="Close photo"
             >
               ×
             </button>

@@ -106,6 +106,9 @@ export default function Navbar() {
             variant="outline"
             onClick={() => setMobileOpen(!mobileOpen)}
             className="p-2"
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav-menu"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
@@ -113,7 +116,10 @@ export default function Navbar() {
 
         {/* Mobile Dropdown */}
         {mobileOpen && (
-          <div className="absolute top-full right-0 mt-2 w-48 bg-background border border-border rounded-md shadow-lg flex flex-col z-50">
+          <div
+            id="mobile-nav-menu"
+            className="absolute top-full right-0 mt-2 w-48 bg-background border border-border rounded-md shadow-lg flex flex-col z-50"
+          >
             {navLinks.map((link) => renderLink(link, true))}
           </div>
         )}
