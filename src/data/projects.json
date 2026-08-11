@@ -8,7 +8,7 @@
     "live_url": "https://siddharthn.com/",
     "image": "/project-screenshots/landing-page.png",
     "status": "Active",
-    "featured": true,
+    "featured": false,
     "year": "2025",
     "tags": ["TypeScript", "Next.js", "Tailwind", "React", "Node.js"]
   },
@@ -55,15 +55,23 @@
   {
     "id": 4,
     "name": "GridironMetrics",
-    "description": "GridironMetrics is a football analytics projects that analyzes NFL skill position players using advanced and traditional statistics to provide insights on player performance and value.",
-    "detailed_description": "GridironMetrics is a comprehensive football analytics project that focuses on evaluating NFL skill position players through advanced metrics and traditional statistics. The project utilizes Python for data analysis, employing libraries such as Pandas for data manipulation, scikit-learn for machine learning, and Plotly for data visualization. By analyzing player performance data, GridironMetrics aims to provide insights into player value, efficiency, and potential future performance.",
+    "description": "A from-scratch, context-aware evaluation system for NFL offensive skill players, built to test whether independent methodology converges with industry-standard grading like PFF, and where it diverges, why.",
+    "detailed_description": "GridironMetrics evaluates NFL offensive skill players (QB/RB/WR/TE) through a multi-phase contextual adjustment pipeline built on Polars, weighting every play by 10+ factors including field position, coverage type, personnel groupings, and weather. It's enriched with NextGen Stats GPS tracking and FTN human-charted flags (contested catches, play action, blitz recognition) specifically to separate player skill from scheme or situation using objective, verifiable flags rather than subjective, human-assigned grades. A supplementary scikit-learn ensemble handles player-props projections on top of the core rankings.",
     "html_url": "https://github.com/NairSiddharth/GridironMetrics",
     "live_url": "",
     "image": "/project-screenshots/american-football.png",
     "status": "Active",
-    "featured": false,
+    "featured": true,
     "year": "2025",
-    "tags": ["Python", "scikit-learn", "Machine Learning", "Excel", "Pandas"]
+    "tags": ["Python", "Polars", "Data Engineering", "Machine Learning", "Sports Analytics"],
+    "problemStatement": "Whether an independently-built, objective-flag-based evaluation system for offensive skill players would converge with established, subjectively-graded industry consensus like PFF, and where it didn't, what specifically explained the gap.",
+    "result": "For 2025 wide receivers, the system's top 4 exactly matched PFF's post-season top 4 (Nacua, Smith-Njigba, St. Brown, Chase), just reordered. The clearest divergence: players with injury-shortened seasons (Drake London, Christian Watson, Terry McLaurin) ranked far lower here than in PFF's grades, because this system sums contribution cumulatively across games played while PFF grades per-snap quality independent of games missed — a real methodological difference, not an error in either system.",
+    "implementationDetails": [
+      "Multi-phase contextual adjustment pipeline (field position, score differential, down and distance, coverage type, personnel groupings, weather) applied to play-by-play data via Polars.",
+      "Integrates NextGen Stats GPS tracking (pressure, separation) and FTN charting (contested catches, play action, blitz, true drops) to adjust for scheme and situation using objective flags instead of subjective grading.",
+      "Position-specific adjustment logic for QB/RB/WR/TE, plus a supplementary scikit-learn ensemble for player-props projections.",
+      "Full season coverage from 2000 to present, with per-position rankings regenerated each year."
+    ]
   },
   {
     "id": 5,
@@ -86,7 +94,7 @@
     "html_url": "https://github.com/NairSiddharth/Unsub",
     "image": "/project-screenshots/unsubscribe.png",
     "status": "Active",
-    "featured": false,
+    "featured": true,
     "year": "2026",
     "tags": ["Python", "Jinja2", "FastAPI", "PostgreSQL", "OAuth"],
     "problemStatement": "Hunting down unsubscribe links across a cluttered inbox is tedious, and not every link is equally trustworthy: some are genuinely one-click, others quietly require a further confirmation step, and handing full inbox access to a third-party service to fix this raises its own privacy problem.",
