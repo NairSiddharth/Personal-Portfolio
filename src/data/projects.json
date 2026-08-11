@@ -77,6 +77,18 @@
     "featured": false,
     "year": "2025",
     "tags": ["Sports", "Data Analytics", "Machine Learning", "Plotly", "Pandas", "Jekyll"]
+  },
+    {
+    "id": 6,
+    "name": "Unsub",
+    "description": "A self-hosted Gmail unsubscriber that scans your inbox for newsletters and subscriptions, then sorts them by how they can actually be removed: one-click, email-based, web link, or unsupported.",
+    "detailed_description": "Unsub connects to Gmail through OAuth and scans message headers to find every sender you're subscribed to, grouping them together and sorting by how recently they emailed you. Each sender is tagged by its unsubscribe method: RFC 8058 one-click, an email-based request sent through the Gmail API, a web link you handle manually, or unsupported if no unsubscribe header exists at all. It runs entirely on your own machine with your own OAuth credentials, only reads message metadata, and only requests send access for the mailto-based unsubscribes it needs to perform. A FastAPI backend handles the scanning and Gmail API calls, with a PostgreSQL database keeping track of senders and their status between runs.",
+    "html_url": "https://github.com/NairSiddharth/Unsub",
+    "image": "/project-screenshots/unsubscribe.png",
+    "status": "Active",
+    "featured": false,
+    "year": "2026",
+    "tags": ["Python", "Jinja2", "FastAPI", "PostgreSQL", "OAuth"]
   }
 
 ]
