@@ -88,7 +88,15 @@
     "status": "Active",
     "featured": false,
     "year": "2026",
-    "tags": ["Python", "Jinja2", "FastAPI", "PostgreSQL", "OAuth"]
+    "tags": ["Python", "Jinja2", "FastAPI", "PostgreSQL", "OAuth"],
+    "problemStatement": "Hunting down unsubscribe links across a cluttered inbox is tedious, and not every link is equally trustworthy: some are genuinely one-click, others quietly require a further confirmation step, and handing full inbox access to a third-party service to fix this raises its own privacy problem.",
+    "result": "Built a working pipeline that scans a Gmail inbox via OAuth and classifies every sender by unsubscribe method, distinguishing RFC 8058 one-click-capable senders from lower-confidence mailto, link-only, or unsupported cases, with state persisted between runs so already-handled senders don't resurface.",
+    "implementationDetails": [
+      "Scopes OAuth to gmail.metadata rather than full read access, so the app only ever sees message headers, never email content.",
+      "Detects RFC 8058 support (List-Unsubscribe-Post) to identify senders that can be unsubscribed with a single POST request and no further redirects.",
+      "FastAPI backend handles Gmail API scanning and unsubscribe actions, rendered through server-side Jinja2 templates.",
+      "PostgreSQL tracks each sender's classification and unsubscribe status across runs."
+    ]
   }
 
 ]
